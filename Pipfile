@@ -1,0 +1,20 @@
+[[source]]
+
+url = "https://pypi.python.org/simple"
+verify_ssl = true
+name = "pypi"
+
+
+[packages]
+
+"c7n" = "*"
+"c7n-mailer" = "*"
+
+
+[dev-packages]
+
+
+
+[requires]
+
+python_version = "3.9"
