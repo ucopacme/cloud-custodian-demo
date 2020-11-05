@@ -10,7 +10,7 @@ policies:
     filters:
       - type: offhour
         tag: CustodianOffHours
-        default_tz: Europe/London
+        default_tz: pt
         offhour: 22
       - type: instance-age
         hours: 1
@@ -28,7 +28,7 @@ policies:
     filters:
       - type: onhour
         tag: CustodianOffHours
-        default_tz: Europe/London
+        default_tz: pt
         onhour: 8
       - type: value
         value: 1
@@ -37,3 +37,18 @@ policies:
         value_type: age
     actions:
       - start
+
+  - name: ebs-delete-unattached-volumes
+    description: |
+      delete unattached EBS volumes; useful for sandbox/dev accounts
+      `CustodianOffHours` applied.
+    resource: ebs
+    mode:
+      type: periodic
+        # role: arn:aws:iam::012345678910:role/custodian-cost-control
+      schedule: "rate(1 day)"
+    filters:
+      - "tag:Custodian": present
+      - Attachments: []
+    actions:
+      - delete
