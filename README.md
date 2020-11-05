@@ -1,39 +1,18 @@
 # Cloud Custodian Demo
 
-### Install Prerequisites
+### Install Cloud Custodian in a python virtual environment
 
 ```
-brew install terraform
+brew install pipenv
+pipenv install --python 3
+pipenv shell
 ```
 
-### Install Cloud Custodian
+### Cloud Custodian Ops
+
+#### Policy validation
 
 ```
-python3 -m venv custodian
-source custodian/bin/activate
-pip install c7n
-pip install c7n-mailer
-```
-
-### Create Demo AWS Environment
-
-```
-cd terraform
-terraform init
-terraform apply --auto-approve
-```
-
-### Run Cloud Custodian
-
-#### Enforce EC2 Copy Instance Tags Policy
-
-```
-custodian run -r eu-west-1 -s custodian/logs -m aws custodian-aws-ebs-copy-instance-tags-policy.yml
-```
-
-#### Enforce ASG Scheduled Availability Policy
-
-```
-custodian run -r eu-west-1 -s custodian/logs -m aws custodian-aws-asg-scheduled-availability-policy.yml
-c7n-mailer --config custodian-aws-slack-notification-policy.yml --update-lambda -t template
+custodian validate cloud-custodian/policies/ec2-offhours.yml
+2020-11-05 09:05:34,510: custodian.commands:INFO Configuration valid: cloud-custodian/policies/ec2-offhours.yml
 ```
